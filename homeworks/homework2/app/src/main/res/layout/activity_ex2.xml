@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Ex2Activity"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name:"
+        android:layout_alignBaseline="@id/etxt_name" />
+
+    <EditText
+        android:id="@+id/etxt_name"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:layout_toRightOf="@id/txt_name" />
+
+    <TextView
+        android:id="@+id/txt_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Age:"
+        android:layout_toRightOf="@id/etxt_name"
+        android:layout_alignBaseline="@id/etxt_age" />
+
+    <EditText
+        android:id="@+id/etxt_age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_toRightOf="@id/txt_age" />
+
+    <TextView
+        android:id="@+id/txt_fathersname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_name"
+        android:text="Father's Name:"
+        android:layout_alignBaseline="@id/etxt_fathersname" />
+
+    <EditText
+        android:id="@+id/etxt_fathersname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etxt_name"
+        android:inputType="text"
+        android:layout_toRightOf="@id/txt_fathersname" />
+
+    <TextView
+        android:id="@+id/txt_mothersname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_fathersname"
+        android:text="Mother's Name:"
+        android:layout_alignBaseline="@id/etxt_mothersname" />
+
+    <EditText
+        android:id="@+id/etxt_mothersname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etxt_fathersname"
+        android:inputType="text"
+        android:layout_toRightOf="@id/txt_mothersname" />
+
+    <TextView
+        android:id="@+id/txt_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_mothersname"
+        android:text="Address:"
+        android:layout_alignBaseline="@id/etxt_address" />
+
+    <EditText
+        android:id="@+id/etxt_address"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etxt_mothersname"
+        android:inputType="text"
+        android:layout_toRightOf="@id/txt_address" />
+
+    <TextView
+        android:id="@+id/txt_address_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_mothersname"
+        android:text="Number:"
+        android:layout_toRightOf="@id/etxt_address"
+        android:layout_alignBaseline="@id/etxt_address_number" />
+
+    <EditText
+        android:id="@+id/etxt_address_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etxt_mothersname"
+        android:inputType="number"
+        android:layout_toRightOf="@id/txt_address_number" />
+
+</RelativeLayout>
