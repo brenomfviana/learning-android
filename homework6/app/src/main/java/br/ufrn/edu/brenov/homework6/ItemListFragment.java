@@ -11,43 +11,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemListFragment extends ListFragment implements AbsListView.MultiChoiceModeListener {
+public class ItemListFragment extends ListFragment implements ActionMode.Callback {
 
     private ListView listView;
-    private List<Integer> selected = new ArrayList<>();
+    private ActionMode actionMode;
+    private int selected = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         this.listView = view.findViewById(android.R.id.list);
-        this.listView.setMultiChoiceModeListener(this);
-        this.listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+        this.listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         return view;
-    }
-
-    @Override
-    public void onItemCheckedStateChanged(ActionMode actionMode, int i, long l, boolean b) {
-        View view = this.listView.getChildAt(i);
-        if (b) {
-            // Update color
-            view.setBackgroundColor(Color.CYAN);
-            // Select item
-            this.selected.add(i);
-        } else {
-            // Update color
-            view.setBackgroundColor(Color.TRANSPARENT);
-            // Deselect item
-            this.selected.remove(new Integer(i));
-        }
     }
 
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
         getActivity().getMenuInflater().inflate(R.menu.actions, menu);
+        this.actionMode = actionMode;
         return true;
     }
 
@@ -58,33 +46,34 @@ public class ItemListFragment extends ListFragment implements AbsListView.MultiC
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+        if (this.selected < 0) {
+            return false;
+        }
+        Toast.makeText(getActivity(), "Selected " + selected, Toast.LENGTH_SHORT).show();
         switch (menuItem.getItemId()) {
             case R.id.edit_item:
-                for (final int i : this.selected) {
-                    EditDialog.show(getActivity().getSupportFragmentManager(),
-                            new EditDialog.OnTextListener() {
-                        @Override
-                        public void onSetText(String text) {
-                            ((ItemListAdapter) getListAdapter()).editItem(i, text);
-                        }
-                    });
-                    // Update color
-                    this.listView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
-                }
+                final int sel = selected;
+                EditDialog.show(getActivity().getSupportFragmentManager(),
+                        new EditDialog.OnTextListener() {
+                            @Override
+                            public void onSetText(String text) {
+                                ((ItemListAdapter) getListAdapter()).editItem(sel, text);
+                            }
+                        });
+                // Update color
+                this.listView.getChildAt(this.selected).setBackgroundColor(Color.TRANSPARENT);
                 break;
             case R.id.delete_item:
-                for (int i : this.selected) {
-                    // Update color
-                    this.listView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
-                    // Remove item
-                    ((ItemListAdapter) getListAdapter()).removeItem(i);
-                }
+                // Update color
+                this.listView.getChildAt(this.selected).setBackgroundColor(Color.TRANSPARENT);
+                // Remove item
+                ((ItemListAdapter) getListAdapter()).removeItem(this.selected);
                 break;
             default:
                 return false;
         }
-        this.selected.clear();
         actionMode.finish();
+        ((ItemListAdapter) getListAdapter()).notifyDataSetChanged();
         return true;
     }
 
@@ -95,6 +84,23 @@ public class ItemListFragment extends ListFragment implements AbsListView.MultiC
             View view = this.listView.getChildAt(i);
             view.setBackgroundColor(Color.TRANSPARENT);
         }
-        this.selected.clear();
+        this.selected = -1;
+    }
+
+    @Override
+    public void onListItemClick(ListView listView, View view, int i, long l) {
+        if (this.selected == -1) {
+            // Update color
+            view.setBackgroundColor(Color.CYAN);
+            // Select item
+            this.selected = i;
+            getActivity().startActionMode(this);
+        } else if (this.selected == i) {
+            // Update color
+            view.setBackgroundColor(Color.TRANSPARENT);
+            // Deselect item
+            this.selected = -1;
+            this.actionMode.finish();
+        }
     }
 }
