@@ -10,3 +10,5 @@ Android projects from the course of Mobile Development of Federal University of 
 | Homework 4 | Using Threads and Progress Task                                     |
 | Homework 5 | Using Recycle View, Pickers and Exit Dialog                         |
 | Homework 6 | Using ListFragment, Base Adapter, Edit Dialog, Menu and Action Mode |
+| Homework 7 | Using Notification and BroadcastReceiver                            |
+| Homework 8 | Using Services                                                      |
